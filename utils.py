@@ -2,6 +2,7 @@ import cv2 as cv
 import os as os
 import skimage as skimage
 from random import randint
+import numpy as np
 
 
 class DataAugmentation:
@@ -30,7 +31,7 @@ class DataAugmentation:
 
 	def contrast(self, img):
 		# alpha value [1.0-3.0], beta value [0-100]
-		return cv.convertScaleAbs(img, alpha=randint(100, 300)/100, beta=randint(0,100))
+		return cv.convertScaleAbs(img, alpha=randint(100, 300) / 100, beta=randint(0, 100))
 
 	def flip_horizontal(self, img):
 		return cv.flip(img, 1)
@@ -42,7 +43,10 @@ class DataAugmentation:
 		return cv.flip(img, -1)
 
 	def noise(self, img):
-		return skimage.util.random_noise(img, mode="gaussian")
+		out = skimage.util.random_noise(img, mode="gaussian")
+		norm_image = cv.normalize(out, None, alpha=0, beta=255, norm_type=cv.NORM_MINMAX, dtype=cv.CV_32F)
+
+		return norm_image.astype(np.uint8)
 
 	def rotate_90_clockwise(self, img):
 		return cv.rotate(img, cv.ROTATE_90_CLOCKWISE)
@@ -105,4 +109,3 @@ class Other:
 	@staticmethod
 	def get_method_with_its_name(func_name):
 		return getattr(DataAugmentation, func_name)
-

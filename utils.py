@@ -103,7 +103,6 @@ class Other:
 		return fileExts
 
 	@staticmethod
-	def run_a_func_with_name(func_name):
-		obj = DataAugmentation()
-		method = getattr(DataAugmentation, func_name)
-		return method(obj)
+	def get_method_with_its_name(func_name):
+		return getattr(DataAugmentation, func_name)
+

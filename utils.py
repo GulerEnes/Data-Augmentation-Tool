@@ -5,8 +5,16 @@ from random import randint
 
 
 class DataAugmentation:
-	def crop(self, img):
-		pass
+	def random_crop(self, img):
+		width, height, chanel = img.shape
+		x1 = randint(0, width)
+		y1 = randint(0, height)
+
+		edge_size = randint(0, width)
+		x2 = x1 + edge_size
+		y2 = y1 + edge_size
+		temp = img[x1:x2, y1:y2, :]
+		return cv.resize(temp, (height, width))
 
 	def random_erasing(self, img):
 		temp = img.copy()

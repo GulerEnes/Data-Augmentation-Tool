@@ -20,7 +20,6 @@ import cv2 as cv
 	- Translation
 """
 
-
 directory = eg.diropenbox(msg="Choose directory", title="Directory select box", default='.')
 
 fileExtList = list(utils.Other.file_extentions(directory))
@@ -29,7 +28,6 @@ if len(fileExtList) == 0:
 	raise "There are no file here!"
 if len(fileExtList) == 1:
 	fileExtList.append('')  # Dummy item, because multchoicebox need at least 2 item
-
 
 fileExt = eg.multchoicebox(msg="Select file extentions", title="Select file extentions", choices=fileExtList)
 
@@ -46,7 +44,7 @@ try:
 	da = utils.DataAugmentation()
 	for f in filenames:
 		filename, ext = splitext(f)
-		if ext in fileExtList and filename[0] != '.':
+		if ext in fileExt and filename[0] != '.':
 			img = cv.imread(directory + '/' + f)
 			for func_name in selects:
 				method = utils.Other.get_method_with_its_name(func_name)

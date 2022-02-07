@@ -1,6 +1,7 @@
 import cv2 as cv
 import os as os
 import skimage as skimage
+from random import randint
 
 
 class DataAugmentation:
@@ -8,7 +9,16 @@ class DataAugmentation:
 		pass
 
 	def random_erasing(self, img):
-		pass
+		temp = img.copy()
+		width, height, chanel = temp.shape
+		x1 = randint(0, width)
+		y1 = randint(0, height)
+
+		x2 = randint(x1, width)
+		y2 = randint(y1, height)
+
+		temp[x1:x2, y1:y2, :] = 0
+		return temp
 
 	def contrast(self, image, alpha, beta):
 		# alpha value [1.0-3.0], beta value [0-100]

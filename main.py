@@ -1,7 +1,8 @@
 import easygui as eg
 from os.path import splitext
-from os import walk
+from os import walk, mkdir
 import utils
+import cv2 as cv
 
 """
 	+ Noise
@@ -19,10 +20,6 @@ import utils
 	- Translation
 """
 
-"""
-Verilen directory'nin içerisinde istenilen özelliklere ait klasörler oluştur ve her birini onların
-içine ayrı ayrı kaydet. Ayrıca orijinaller için de bir klasör aç
-"""
 
 directory = eg.diropenbox(msg="Choose directory", title="Directory select box", default='.')
 
@@ -41,12 +38,20 @@ choices = [i for i in dir(utils.DataAugmentation) if i[0] != '_']
 selects = eg.multchoicebox(msg="Select augmentation types", title="augmentation types select box", choices=choices)
 
 try:
-	_, _, filenames = next(walk(directory))
+	# Creating directories
+	for i in selects:
+		mkdir(directory + '/' + i)
 
+	_, _, filenames = next(walk(directory))
+	da = utils.DataAugmentation()
 	for f in filenames:
-		oldName, ext = splitext(f)
-		if ext in fileExtList:
-			pass
+		filename, ext = splitext(f)
+		if ext in fileExtList and filename[0] != '.':
+			img = cv.imread(directory + '/' + f)
+			for func_name in selects:
+				method = utils.Other.get_method_with_its_name(func_name)
+				out = method(da, img)
+				cv.imwrite(directory + '/' + func_name + '/' + f, out)
 
 except Exception as e:
 	print("Error:", e)

@@ -28,9 +28,9 @@ class DataAugmentation:
 		temp[x1:x2, y1:y2, :] = 0
 		return temp
 
-	def contrast(self, image, alpha, beta):
+	def contrast(self, img):
 		# alpha value [1.0-3.0], beta value [0-100]
-		return cv.convertScaleAbs(image, alpha=alpha, beta=beta)
+		return cv.convertScaleAbs(img, alpha=randint(100, 300)/100, beta=randint(0,100))
 
 	def flip_horizontal(self, img):
 		return cv.flip(img, 1)
@@ -50,7 +50,8 @@ class DataAugmentation:
 	def rotate_90_counter_clockwise(self, img):
 		return cv.rotate(img, cv.ROTATE_90_COUNTERCLOCKWISE)
 
-	def brightness(self, img, value=0):
+	def brightness(self, img):
+		value = randint(-100, 100)
 		hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 		h, s, v = cv.split(hsv)
 		v = cv.add(v, value)
@@ -60,7 +61,8 @@ class DataAugmentation:
 		img = cv.cvtColor(final_hsv, cv.COLOR_HSV2BGR)
 		return img
 
-	def saturation(self, img, value=0):
+	def saturation(self, img):
+		value = randint(-100, 100)
 		hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 		h, s, v = cv.split(hsv)
 		s = cv.add(s, value)
@@ -70,7 +72,8 @@ class DataAugmentation:
 		img = cv.cvtColor(final_hsv, cv.COLOR_HSV2BGR)
 		return img
 
-	def hue(self, img, value=0):
+	def hue(self, img):
+		value = randint(-100, 100)
 		hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 		h, s, v = cv.split(hsv)
 		h = cv.add(h, value)

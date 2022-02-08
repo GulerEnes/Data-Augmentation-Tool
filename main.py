@@ -24,10 +24,20 @@ selects = eg.multchoicebox(msg="Select augmentation types that you want to proce
 						   title="augmentation types select box",
 						   choices=choices)
 
+# if directory_structure == True, then create one folder named 'augmented_images'
+# Otherwise create folders seperately for each selected method
+directory_structure = eg.boolbox(msg="\tDo you want to create all augmented images under only one folder?\n"
+									 "If you choose 'Yes', your original images will keep seperate from others.\n\n"
+									 "\tIf you choose 'No', all augmented images will create under separate folders.",
+								 title="Directory structure choice window", choices=["Yes (recommended)", "No"])
+
 try:
 	# Creating directories
-	for i in selects:
-		mkdir(directory + '/' + i)
+	if not directory_structure:
+		for i in selects:
+			mkdir(directory + '/' + i)
+	else:
+		mkdir(directory + '/augmented_images')
 
 	# Data augmentation
 	_, _, filenames = next(walk(directory))
@@ -39,7 +49,10 @@ try:
 			for func_name in selects:
 				method = utils.Other.get_method_with_its_name(func_name)
 				out = method(da, img)
-				cv.imwrite(directory + '/' + func_name + '/' + func_name + '_' + f, out)
+				if directory_structure:
+					cv.imwrite(directory + '/augmented_images/' + func_name + '_' + f, out)
+				else:
+					cv.imwrite(directory + '/' + func_name + '/' + func_name + '_' + f, out)
 
 except Exception as e:
 	print("Error:", e)

@@ -4,7 +4,6 @@ from os import walk, mkdir
 import utils
 import cv2 as cv
 
-
 # GUI inputs
 directory = eg.diropenbox(msg="Choose directory", title="Directory select box", default='.')
 
@@ -40,7 +39,7 @@ try:
 			for func_name in selects:
 				method = utils.Other.get_method_with_its_name(func_name)
 				out = method(da, img)
-				cv.imwrite(directory + '/' + func_name + '/' + f, out)
+				cv.imwrite(directory + '/' + func_name + '/' + func_name + '_' + f, out)
 
 except Exception as e:
 	print("Error:", e)

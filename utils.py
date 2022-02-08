@@ -54,6 +54,12 @@ class DataAugmentation:
 	def rotate_90_counter_clockwise(self, img):
 		return cv.rotate(img, cv.ROTATE_90_COUNTERCLOCKWISE)
 
+	def random_rotation(self, img):
+		angle = randint(30, 330)
+		height, width = img.shape[:2]
+		rotate_matrix = cv.getRotationMatrix2D(center=(width / 2, height / 2), angle=angle, scale=1)
+		return cv.warpAffine(src=img, M=rotate_matrix, dsize=(width, height))
+
 	def brightness(self, img):
 		value = randint(-100, 100)
 		hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)

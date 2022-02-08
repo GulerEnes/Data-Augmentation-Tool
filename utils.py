@@ -15,7 +15,6 @@ class DataAugmentation:
 		x2 = min(width-1, x1 + edge_size)
 		y2 = min(height-1, y1 + edge_size)
 		temp = img[x1:x2, y1:y2, :]
-		print(x1, y1, edge_size)
 		return cv.resize(temp, (height, width))
 
 	def random_erasing(self, img):

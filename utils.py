@@ -8,13 +8,14 @@ import numpy as np
 class DataAugmentation:
 	def random_crop(self, img):
 		width, height, chanel = img.shape
-		x1 = randint(0, width)
-		y1 = randint(0, height)
+		x1 = randint(0, int(width*0.7))
+		y1 = randint(0, int(height*0.7))
 
-		edge_size = randint(0, width)
-		x2 = x1 + edge_size
-		y2 = y1 + edge_size
+		edge_size = randint(10, width)
+		x2 = min(width-1, x1 + edge_size)
+		y2 = min(height-1, y1 + edge_size)
 		temp = img[x1:x2, y1:y2, :]
+		print(x1, y1, edge_size)
 		return cv.resize(temp, (height, width))
 
 	def random_erasing(self, img):

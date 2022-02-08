@@ -60,6 +60,13 @@ class DataAugmentation:
 		rotate_matrix = cv.getRotationMatrix2D(center=(width / 2, height / 2), angle=angle, scale=1)
 		return cv.warpAffine(src=img, M=rotate_matrix, dsize=(width, height))
 
+	def translation(self, img):
+		height, width, _ = img.shape
+		x = int(width * 0.3)
+		y = int(height * 0.3)
+		M = np.float32([[1, 0, randint(-x, x)], [0, 1, randint(-y, y)]])
+		return cv.warpAffine(img, M, (width, height))
+
 	def brightness(self, img):
 		value = randint(-100, 100)
 		hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)

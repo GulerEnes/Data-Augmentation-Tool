@@ -4,22 +4,8 @@ from os import walk, mkdir
 import utils
 import cv2 as cv
 
-"""
-	+ Noise
-	+ Cropping
-	+ Flipping
-	+ Brightness
-	+ Contrast
-	+ Saturation
-	+ Hue
-	+ GrayScale
-	+ Random Erasing
-	- Padding
-	- Scaling
-	- Rotation
-	- Translation
-"""
 
+# GUI inputs
 directory = eg.diropenbox(msg="Choose directory", title="Directory select box", default='.')
 
 fileExtList = list(utils.Other.file_extentions(directory))
@@ -29,17 +15,22 @@ if len(fileExtList) == 0:
 if len(fileExtList) == 1:
 	fileExtList.append('')  # Dummy item, because multchoicebox need at least 2 item
 
-fileExt = eg.multchoicebox(msg="Select file extentions", title="Select file extentions", choices=fileExtList)
+fileExt = eg.multchoicebox(msg="Select file extentions that you want to process data augmentation on those",
+						   title="Select file extentions",
+						   choices=fileExtList)
 
 choices = [i for i in dir(utils.DataAugmentation) if i[0] != '_']
 
-selects = eg.multchoicebox(msg="Select augmentation types", title="augmentation types select box", choices=choices)
+selects = eg.multchoicebox(msg="Select augmentation types that you want to process",
+						   title="augmentation types select box",
+						   choices=choices)
 
 try:
 	# Creating directories
 	for i in selects:
 		mkdir(directory + '/' + i)
 
+	# Data augmentation
 	_, _, filenames = next(walk(directory))
 	da = utils.DataAugmentation()
 	for f in filenames:

@@ -11,3 +11,6 @@ This is a data augmentation tool for creating augmented data from a bunch of ima
 4- Your new augmented images will be under the selected directory.
 
 5- To reuse the tool you must delete old created files with their directory.
+
+
+<img src="example_gui_photo.png">
